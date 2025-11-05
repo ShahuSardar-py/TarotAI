@@ -1,0 +1,18 @@
+[
+  {
+    "id": 0,
+    "name": "The Fool",
+    "arcana": "Major",
+    "upright": "New beginnings, curiosity, and open-hearted adventure.",
+    "reversed": "Recklessness, fear of change, poor planning.",
+    "image": "images/the_fool.jpg"
+  },
+  {
+    "id": 1,
+    "name": "The Magician",
+    "arcana": "Major",
+    "upright": "Manifestation, power, resourcefulness.",
+    "reversed": "Manipulation, poor use of talent, deception.",
+    "image": "images/the_magician.jpg"
+  }
+]

@@ -4,6 +4,10 @@ import random
 import datetime 
 import os
 import json 
+from google import genai
+
+
+client = genai.Client(api_key=os.getenv("GAPI"))
 
 st.set_page_config(page_icon='🔮', 
                    page_title='TarotAI',
@@ -25,8 +29,14 @@ def Magic():
       ori= random.choice(["upright", 'reversed'])
       return card, ori
 
+
+focus= st.selectbox(
+       "Area of focus:",
+        ["General", "Relationships", "Career", "Decisions", "Health"]
+)
 if st.button("reveal"):
        card, ori= Magic()
        st.subheader(card["name"])
        st.write(f"**Arcana:** {card['arcana']}")
        st.write(f"**Meaning ({ori}):** {card[ori]}")
+       st.write(f"YOU READING FOR {focus}")

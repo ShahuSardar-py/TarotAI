@@ -18,14 +18,33 @@ def set_bg(image_file):
     with open(image_file, "rb") as f:
         img_data = f.read()
     b64_img = base64.b64encode(img_data).decode()
+
     bg_css = f"""
     <style>
     .stApp {{
-        background-image: url("data:image/png;base64,{b64_img}");
+        background-image: url("data:image/jpg;base64,{b64_img}");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
+        position: relative;
+    }}
+    /* Blurred translucent overlay */
+    .stApp::before {{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.45); /* darkness level */
+        backdrop-filter: blur(8px);
+        z-index: 0;
+    }}
+    /* Keep actual app content above overlay */
+    .stApp > div:first-child {{
+        position: relative;
+        z-index: 1;
     }}
     </style>
     """
@@ -67,11 +86,11 @@ def GenMeaning(card_name, category):
 st.title("Celestia 🔮")
 st.caption("Your personalized daily tarot reader")
 st.divider()
-
-st.write("Select what type of reading you need from the drop down given below. Keep the question in mind and click :red[Choose Card].")
+st.caption("Its best to pick only one card in a day as its based on your first intution and thus the first reading is the one universe has chosen :) ")
+st.write("Select what type of reading you need from the drop down given below. Keep the question in mind and click :red[Pick My Card].")
 focus= st.selectbox(
        "Reading about:",
-        ["General", "Relationship", "Career", "Decisions", "Health"]
+        ["General", "Relationship", "Career", "Life Decisions", "Health"]
 )
 DOR= datetime.date.today().isoformat()
 if st.button("Pick My Tarot Card"):
@@ -84,4 +103,26 @@ if st.button("Pick My Tarot Card"):
              reading = GenMeaning(card, focus)
              st.write(reading)
 
-st.caption("Its best to pick only one card in a day as its based on your first intution and thus the first reading is the one universe has chosen :) ")
+
+st.markdown(
+    """
+    <div style='text-align: center; margin-top: 30px;'>
+        <a href="https://buymeacoffee.com/shahusardag" target="_blank"
+           style="background-color:#FFDD00; color:#000; padding:10px 20px; 
+                  border-radius:10px; text-decoration:none; font-weight:bold;">
+           ☕ Buy me a coffee
+        </a>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+with st.expander("How this works"):
+     st.write('''Celestia is built on the same deck of 78 traditional tarot cards that readers have used for centuries.
+Each time you visit, the app shuffles the entire deck and then seeds the selection with today’s date — tying your draw to the day’s unique energies. The card you receive is your reading for this moment.
+
+Once drawn, an AI tarot reader interprets your card in context with your chosen focus — be it love, career, or clarity — weaving meaning from both intuition and data.
+
+🔮 Disclaimer: Celestia doesn’t claim absolute accuracy or predict the future. Think of it as a mirror — a small ritual to align your thoughts, lift your spirit, and tune in to your energy for the day.''')
+
+

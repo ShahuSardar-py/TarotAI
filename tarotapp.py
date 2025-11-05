@@ -8,11 +8,12 @@ from google import genai
 from dotenv import load_dotenv
 
 load_dotenv()
-
 client = genai.Client(api_key=os.getenv("GAPI"))
+#UI setup 
 st.set_page_config(page_icon='🔮', 
-                   page_title='TarotAI',
+                   page_title='Celestia',
                    layout='centered')
+
 
 @st.cache_data
 def load_cards():
@@ -42,16 +43,26 @@ def GenMeaning(card_name, category):
         )
     return response.text.strip()
 
+
+
+st.title("Celestia 🔮")
+st.caption("Your personalized daily tarot reader")
+st.divider()
+
+st.write("Select what type of reading you need from the drop down given below. Keep the question in mind and click choose card. Your Tarot card will be drawn.  ")
 focus= st.selectbox(
-       "Area of focus:",
+       "Reading about:",
         ["General", "Relationship", "Career", "Decisions", "Health"]
 )
-if st.button("reveal"):
+
+if st.button("Pick My Tarot Card"):
        card, ori= Magic()
+       st.toast("You've picked your card!")
        st.subheader(card["name"])
-       st.write(f"**Arcana:** {card['arcana']}")
-       st.write(f"**Meaning ({ori}):** {card[ori]}")
-       st.write(f"YOU READING FOR {focus}")
-       with st.spinner("Connecting to the universe..."):
-        reading = GenMeaning(card, focus)
-        st.write(reading)
+
+       with st.expander("Get your reading for the choosen card"):
+        with st.spinner("Connecting to the universe..."):
+             reading = GenMeaning(card, focus)
+             st.write(reading)
+
+st.caption("Its best to pick only one card in a day as its based on your first intution and thus the first reading is the one universe has chosen :) ")

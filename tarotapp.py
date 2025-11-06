@@ -7,13 +7,15 @@ import json
 from google import genai
 from dotenv import load_dotenv
 import base64
+
 load_dotenv()
 client = genai.Client(api_key=os.getenv("GAPI"))
+
 #UI setup 
 st.set_page_config(page_icon='🔮', 
                    page_title='Celestia',
                    layout='centered')
-# Background image setup
+
 def set_bg(image_file):
     with open(image_file, "rb") as f:
         img_data = f.read()
@@ -60,6 +62,7 @@ def load_cards():
     
 cards= load_cards()
 
+#selction of card
 def Magic():
       today= datetime.date.today().isoformat()
       random.seed(today + str(datetime.datetime.now().second))
@@ -82,7 +85,7 @@ def GenMeaning(card_name, category):
     return response.text.strip()
 
 
-
+#app ui
 st.title("Celestia 🔮")
 st.caption("Your personalized daily tarot reader")
 st.divider()
@@ -104,6 +107,7 @@ if st.button("Pick My Tarot Card"):
              st.write(reading)
 
 
+#sponsor button
 st.markdown(
     """
     <div style='text-align: center; margin-top: 30px;'>

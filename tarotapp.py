@@ -52,7 +52,8 @@ def set_bg(image_file):
     """
     st.markdown(bg_css, unsafe_allow_html=True)
 
-set_bg("/images/bg.jpg")
+st.image("images/bg.jpg")
+
 
 
 @st.cache_data

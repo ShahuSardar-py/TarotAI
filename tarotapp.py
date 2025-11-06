@@ -62,7 +62,7 @@ cards= load_cards()
 
 def Magic():
       today= datetime.date.today().isoformat()
-      random.seed(today)
+      random.seed(today + str(datetime.datetime.now().second))
       random.shuffle(cards)
       card= random.choice(cards)
       ori= random.choice(["upright", 'reversed'])
